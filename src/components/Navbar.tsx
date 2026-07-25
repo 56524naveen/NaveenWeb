@@ -13,11 +13,25 @@ export default function Navbar() {
         <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Feature</a>
         <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Pricing</a>
         <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Support</a>
+        <a 
+          href="https://forms.gle/oHY5LR2vpT12HQb29" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors"
+        >
+          Contact Me
+        </a>
       </div>
 
-      <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 cursor-pointer">
-        Log in
-      </button>
+      <a 
+        href="https://forms.gle/oHY5LR2vpT12HQb29" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 cursor-pointer inline-block"
+      >
+        Contact Me
+      </a>
+
     </nav>
   );
 }
