@@ -211,7 +211,98 @@
         </div>
       </section>
 
+      <!-- Future & Life Path Predictor Section -->
+      <section class="w-full max-w-4xl mx-auto my-12 px-4 relative z-20">
+        <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-3xl blur-xl opacity-30 animate-pulse pointer-events-none"></div>
+        <div class="relative bg-[#0a0e17]/90 border border-white/15 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_50px_rgba(147,51,234,0.2)] overflow-hidden text-left">
+          
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 text-xs font-semibold tracking-wide">
+              <i data-lucide="compass" class="w-4 h-4 text-purple-400"></i>
+              <span>Future & Life Path Calculator</span>
+            </div>
+            <div class="flex items-center gap-1 text-xs text-gray-400">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-400"></i>
+              <span>Numerology & Astrological Alignment</span>
+            </div>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+            Discover Your Future & Life Path
+          </h2>
+          <p class="text-gray-400 text-sm mb-6">
+            Enter your name and date of birth to calculate your personalized life path number, zodiac alignment, and future forecast.
+          </p>
+
+          <form id="future-form" onsubmit="event.preventDefault(); runFuturePredictor();" class="grid grid-cols-1 sm:grid-cols-5 gap-3 mb-6">
+            <div class="sm:col-span-2 relative">
+              <i data-lucide="user" class="absolute left-3.5 top-3 w-4 h-4 text-gray-500"></i>
+              <input id="future-name" type="text" required placeholder="Your Full Name" class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/15 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all" />
+            </div>
+
+            <div class="sm:col-span-2 relative">
+              <i data-lucide="calendar" class="absolute left-3.5 top-3 w-4 h-4 text-gray-500"></i>
+              <input id="future-dob" type="date" required class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/15 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all" />
+            </div>
+
+            <button type="submit" class="sm:col-span-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white py-2.5 px-4 rounded-xl text-sm font-semibold shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <span>Predict</span>
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+            </button>
+          </form>
+
+          <div id="future-loading" class="hidden flex-col items-center justify-center py-10 border border-white/10 rounded-2xl bg-black/40 backdrop-blur-md">
+            <div class="w-8 h-8 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-3"></div>
+            <p class="text-sm font-medium text-purple-400 animate-pulse">Calculating numerology & zodiac life path coordinates...</p>
+          </div>
+
+          <div id="future-result" class="hidden border border-purple-500/30 rounded-2xl bg-gradient-to-b from-purple-950/20 to-black/60 p-6">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+              <div class="bg-white/5 border border-white/10 p-3 rounded-xl flex flex-col items-center text-center">
+                <span class="text-[10px] text-gray-400 uppercase tracking-wider">Life Path</span>
+                <span id="res-lifepath" class="text-xl font-extrabold text-purple-400 mt-0.5">#7</span>
+              </div>
+              <div class="bg-white/5 border border-white/10 p-3 rounded-xl flex flex-col items-center text-center">
+                <span class="text-[10px] text-gray-400 uppercase tracking-wider">Zodiac Sign</span>
+                <span id="res-zodiac" class="text-sm font-bold text-white mt-1">Leo</span>
+              </div>
+              <div class="bg-white/5 border border-white/10 p-3 rounded-xl flex flex-col items-center text-center">
+                <span class="text-[10px] text-gray-400 uppercase tracking-wider">Element</span>
+                <span id="res-element" class="text-sm font-bold text-blue-400 mt-1">Fire</span>
+              </div>
+              <div class="bg-white/5 border border-white/10 p-3 rounded-xl flex flex-col items-center text-center">
+                <span class="text-[10px] text-gray-400 uppercase tracking-wider">Lucky Number</span>
+                <span id="res-luckynum" class="text-xl font-extrabold text-emerald-400 mt-0.5">42</span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="star" class="w-4 h-4 text-purple-400 fill-purple-400"></i>
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Future & Career Outlook</h3>
+              </div>
+              <p id="res-forecast" class="text-gray-200 text-sm leading-relaxed bg-white/5 border border-white/10 p-4 rounded-xl"></p>
+            </div>
+
+            <div class="mb-4">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="award" class="w-4 h-4 text-blue-400"></i>
+                <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Primary Core Strength</h4>
+              </div>
+              <p id="res-strength" class="text-gray-300 text-xs bg-white/5 border border-white/10 p-3 rounded-xl"></p>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-white/10 text-xs text-gray-400">
+              <span>Lucky Color: <strong id="res-color" class="text-white">Electric Blue</strong></span>
+              <button onclick="document.getElementById('future-result').classList.add('hidden');" class="text-gray-400 hover:text-white cursor-pointer">Reset</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       <!-- App Preview Section -->
+
 
       <section class="w-full max-w-[1000px] mt-8 mb-20 relative z-10">
         <div class="absolute inset-0 bg-blue-500/20 blur-[100px] -z-10 rounded-full scale-90 translate-y-10"></div>
@@ -635,8 +726,79 @@
         });
       }
 
+      // Future Predictor Engine
+      window.runFuturePredictor = function() {
+        const name = document.getElementById('future-name').value.trim();
+        const dob = document.getElementById('future-dob').value;
+        if (!name || !dob) return;
 
-    })();
+        const loadingEl = document.getElementById('future-loading');
+        const resultCard = document.getElementById('future-result');
+
+        loadingEl.classList.remove('hidden');
+        loadingEl.classList.add('flex');
+        resultCard.classList.add('hidden');
+
+        setTimeout(function() {
+          const digits = dob.replace(/\D/g, '');
+          let lifePath = digits.split('').reduce((acc, d) => acc + parseInt(d, 10), 0);
+          while (lifePath > 9 && lifePath !== 11 && lifePath !== 22 && lifePath !== 33) {
+            lifePath = lifePath.toString().split('').reduce((acc, d) => acc + parseInt(d, 10), 0);
+          }
+
+          const d = new Date(dob);
+          const day = d.getUTCDate();
+          const month = d.getUTCMonth() + 1;
+          let zodiac = "Pisces";
+          if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) zodiac = "Aries";
+          else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) zodiac = "Taurus";
+          else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) zodiac = "Gemini";
+          else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) zodiac = "Cancer";
+          else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) zodiac = "Leo";
+          else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) zodiac = "Virgo";
+          else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) zodiac = "Libra";
+          else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) zodiac = "Scorpio";
+          else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) zodiac = "Sagittarius";
+          else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) zodiac = "Capricorn";
+          else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) zodiac = "Aquarius";
+
+          const colors = ["Electric Blue", "Golden Amber", "Emerald Green", "Royal Violet", "Crimson Red", "Cosmic Silver"];
+          const elements = ["Fire", "Earth", "Air", "Water"];
+          const charCodeSum = name.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+          
+          const luckyColor = colors[charCodeSum % colors.length];
+          const element = elements[(lifePath + charCodeSum) % elements.length];
+          const luckyNum = ((lifePath * 7) % 88) + 1;
+
+          const forecasts = [
+            `Great opportunities in leadership and creative innovation await ${name}. Your dedication will unlock major career breakthroughs within the next cycle.`,
+            `${name}'s analytical mindset and determination will pave the way for extraordinary personal growth and financial stability.`,
+            `New collaborative ventures and meaningful connections will bring transformative success to ${name} in the near future.`,
+            `Focusing on passion projects will bring ${name} recognition and fulfillment. Strategic planning will yield remarkable results.`
+          ];
+
+          const strengths = [
+            "Strong natural intuition and high problem-solving capacity.",
+            "Exceptional resilience when facing complex challenges.",
+            "Ability to inspire others and drive collaborative success.",
+            "Visionary approach to career, learning, and personal mastery."
+          ];
+
+          document.getElementById('res-lifepath').textContent = "#" + lifePath;
+          document.getElementById('res-zodiac').textContent = zodiac;
+          document.getElementById('res-element').textContent = element;
+          document.getElementById('res-luckynum').textContent = luckyNum;
+          document.getElementById('res-forecast').textContent = forecasts[charCodeSum % forecasts.length];
+          document.getElementById('res-strength').textContent = strengths[charCodeSum % strengths.length];
+          document.getElementById('res-color').textContent = luckyColor;
+
+          loadingEl.classList.add('hidden');
+          loadingEl.classList.remove('flex');
+          resultCard.classList.remove('hidden');
+          if (window.lucide) window.lucide.createIcons();
+        }, 700);
+      };
+
   </script>
   <!-- Interactive Login Modal -->
   <div id="login-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-md">
