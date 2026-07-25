@@ -1,10 +1,11 @@
-import { Hexagon } from 'lucide-react';
+import { Hexagon, Calendar } from 'lucide-react';
 
 interface NavbarProps {
   onOpenLogin?: () => void;
+  onOpenAppointment?: () => void;
 }
 
-export default function Navbar({ onOpenLogin }: NavbarProps) {
+export default function Navbar({ onOpenLogin, onOpenAppointment }: NavbarProps) {
   return (
     <nav className="w-full pt-8 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -17,20 +18,25 @@ export default function Navbar({ onOpenLogin }: NavbarProps) {
         <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Feature</a>
         <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Pricing</a>
         <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Support</a>
-        <a 
-          href="https://forms.gle/oHY5LR2vpT12HQb29" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors"
+        <button 
+          onClick={onOpenAppointment}
+          className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors cursor-pointer"
         >
-          Contact Me
-        </a>
+          Book Appointment
+        </button>
       </div>
 
       <div className="flex items-center gap-3">
         <button 
+          onClick={onOpenAppointment}
+          className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-5 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 cursor-pointer active:scale-95"
+        >
+          <Calendar className="w-4 h-4" />
+          <span>Book Appointment</span>
+        </button>
+        <button 
           onClick={onOpenLogin}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 cursor-pointer active:scale-95"
+          className="border border-white/20 hover:bg-white/10 text-white px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer active:scale-95"
         >
           Log in
         </button>

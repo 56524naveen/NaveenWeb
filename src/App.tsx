@@ -8,9 +8,7 @@ import AIAgent from "./components/AIAgent";
 import FuturePredictor from "./components/FuturePredictor";
 import LiteracyChart from "./components/LiteracyChart";
 import LoginModal from "./components/LoginModal";
-
-
-
+import AppointmentModal from "./components/AppointmentModal";
 
 const TOTAL_FRAMES = 240;
 
@@ -25,6 +23,7 @@ export default function App() {
   const [loadingProgress, setLoadingProgress] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
+  const [isAppointmentOpen, setIsAppointmentOpen] = useState<boolean>(false);
 
 
   // Preload all frames
@@ -189,9 +188,12 @@ export default function App() {
 
       {/* Foreground Landing Page UI Layer */}
       <div className="relative z-10 flex flex-col items-center w-full">
-        <Navbar onOpenLogin={() => setIsLoginOpen(true)} />
+        <Navbar 
+          onOpenLogin={() => setIsLoginOpen(true)} 
+          onOpenAppointment={() => setIsAppointmentOpen(true)} 
+        />
         <main className="flex flex-col items-center w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <Hero />
+          <Hero onOpenAppointment={() => setIsAppointmentOpen(true)} />
           <AIAgent />
           <FuturePredictor />
           <AppPreview />
@@ -199,13 +201,13 @@ export default function App() {
           <Features />
           <LiteracyChart />
         </main>
-
-
-
       </div>
 
       {/* Login Modal */}
       <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+
+      {/* Supabase Appointment Booking Modal */}
+      <AppointmentModal isOpen={isAppointmentOpen} onClose={() => setIsAppointmentOpen(false)} />
     </div>
   );
 }
