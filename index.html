@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naveen Web - Future of Note Taking</title>
+  <!-- Tailwind CSS CDN for full styling fidelity -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      background-color: #000000;
+      color: #ffffff;
+      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Custom sleek scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #333333;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555555;
+    }
+
+    /* Fixed Fullscreen Canvas */
+    #animation-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Top Preloading Glow Bar */
+    #loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #6366f1, #a855f7);
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.8);
+      z-index: 100;
+      transition: width 0.15s ease-out, opacity 0.5s ease-in-out;
+      pointer-events: none;
+    }
+
+    #loading-bar.loaded {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body class="bg-black text-white antialiased">
+  <!-- Top Glow Loading Progress Bar -->
+  <div id="loading-bar"></div>
+
+  <!-- Background Video Canvas -->
+  <canvas id="animation-canvas"></canvas>
+
+  <!-- Foreground Landing Page UI Layer -->
+  <div class="relative z-10 min-h-screen flex flex-col items-center w-full bg-black/30 backdrop-blur-[2px]">
+    
+    <!-- Navbar -->
+    <nav class="w-full pt-8 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="hexagon" class="w-7 h-7 text-white fill-white"></i>
+        <span class="text-white font-semibold text-xl tracking-wide">Naveen Web</span>
+      </div>
+      
+      <div class="hidden md:flex items-center gap-8 bg-white/5 border border-white/10 rounded-full px-8 py-2.5 backdrop-blur-md shadow-sm">
+        <a href="#" class="text-sm text-white font-medium">Home</a>
+        <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Feature</a>
+        <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Pricing</a>
+        <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Support</a>
+      </div>
+
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 cursor-pointer">
+        Log in
+      </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex flex-col items-center w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      
+      <!-- Hero Section -->
+      <section class="flex flex-col items-center text-center pt-20 pb-16 w-full relative">
+        <div class="absolute top-[20%] left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-blue-500/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+
+        <div class="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-8 backdrop-blur-sm shadow-sm">
+          <i data-lucide="sparkles" class="w-4 h-4 text-gray-300"></i>
+          <span class="text-sm text-gray-300 font-medium">Take note using AI</span>
+        </div>
+
+        <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight max-w-4xl mb-6">
+          The Future of Note<br />Taking Starts with AI
+        </h1>
+
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-12">
+          Plan less, focus more. Your personal task workspace, reimagined for deep work.
+        </p>
+
+        <form class="flex items-center bg-white/5 border border-white/10 rounded-full p-1.5 pl-5 w-full max-w-md backdrop-blur-sm shadow-xl focus-within:border-white/30 transition-colors" onsubmit="event.preventDefault();">
+          <i data-lucide="mail" class="w-5 h-5 text-gray-400 mr-2 shrink-0"></i>
+          <input 
+            type="email" 
+            placeholder="Your Email Address" 
+            class="bg-transparent border-none text-white outline-none flex-1 w-full placeholder:text-gray-500 text-sm"
+            required
+          />
+          <button 
+            type="submit" 
+            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-full text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 shrink-0 cursor-pointer"
+          >
+            Submit
+          </button>
+        </form>
+      </section>
+
+      <!-- App Preview Section -->
+      <section class="w-full max-w-[1000px] mt-8 mb-20 relative z-10">
+        <div class="absolute inset-0 bg-blue-500/20 blur-[100px] -z-10 rounded-full scale-90 translate-y-10"></div>
+        
+        <div class="rounded-2xl border border-white/10 bg-[#0a0e17]/80 backdrop-blur-md shadow-2xl overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.15)] relative">
+          <!-- Browser Mockup Top Bar -->
+          <div class="h-10 border-b border-white/10 flex items-center px-4 gap-2 bg-[#0d121c]">
+             <div class="flex gap-1.5">
+               <div class="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
+               <div class="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
+               <div class="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
+             </div>
+          </div>
+
+          <!-- Dashboard Mockup Frame -->
+          <div class="aspect-[16/10] w-full bg-[#0a0e17]/90 flex items-center justify-center overflow-hidden relative">
+               <div class="absolute inset-0 flex flex-col pt-10 px-8 pb-8">
+                  <div class="flex flex-1 gap-6">
+                      <div class="w-48 border-r border-white/5 pr-4 flex flex-col gap-4 hidden sm:flex">
+                           <div class="h-6 w-24 bg-white/10 rounded"></div>
+                           <div class="flex flex-col gap-3 mt-4">
+                              <div class="h-4 w-full bg-white/5 rounded"></div>
+                              <div class="h-4 w-3/4 bg-white/5 rounded"></div>
+                              <div class="h-4 w-5/6 bg-white/5 rounded"></div>
+                              <div class="h-4 w-4/5 bg-white/5 rounded"></div>
+                           </div>
+                      </div>
+                      <div class="flex-1 flex flex-col gap-6">
+                          <div class="grid grid-cols-3 gap-4 h-24">
+                              <div class="bg-white/5 rounded-xl border border-white/5 p-4 flex flex-col justify-between">
+                                  <div class="h-3 w-16 bg-white/10 rounded"></div>
+                                  <div class="h-8 w-12 bg-white/20 rounded"></div>
+                              </div>
+                              <div class="bg-white/5 rounded-xl border border-white/5 p-4 flex flex-col justify-between">
+                                  <div class="h-3 w-16 bg-white/10 rounded"></div>
+                                  <div class="h-8 w-12 bg-white/20 rounded"></div>
+                              </div>
+                              <div class="bg-white/5 rounded-xl border border-white/5 p-4 flex flex-col justify-between">
+                                  <div class="h-3 w-16 bg-white/10 rounded"></div>
+                                  <div class="h-8 w-12 bg-white/20 rounded"></div>
+                              </div>
+                          </div>
+                          <div class="flex gap-4 flex-1">
+                               <div class="flex-[2] bg-white/5 rounded-xl border border-white/5 p-4 flex flex-col">
+                                   <div class="h-4 w-32 bg-white/10 rounded mb-6"></div>
+                                   <div class="flex-1 flex items-end gap-3 justify-center pb-4">
+                                        <div class="w-8 h-[30%] bg-blue-500/50 rounded-t-sm"></div>
+                                        <div class="w-8 h-[60%] bg-blue-400 rounded-t-sm"></div>
+                                        <div class="w-8 h-[40%] bg-blue-500/50 rounded-t-sm"></div>
+                                        <div class="w-8 h-[20%] bg-blue-500/50 rounded-t-sm"></div>
+                                   </div>
+                               </div>
+                               <div class="flex-1 bg-white/5 rounded-xl border border-white/5 p-4 flex flex-col gap-4">
+                                    <div class="h-4 w-24 bg-white/10 rounded mb-2"></div>
+                                    <div class="h-3 w-full bg-white/5 rounded"></div>
+                                    <div class="h-3 w-full bg-white/5 rounded"></div>
+                                    <div class="h-3 w-5/6 bg-white/5 rounded"></div>
+                                    <div class="h-3 w-full bg-white/5 rounded"></div>
+                               </div>
+                          </div>
+                      </div>
+                  </div>
+               </div>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0e17] to-transparent"></div>
+        </div>
+      </section>
+
+      <!-- Logo Cloud Section -->
+      <section class="w-full py-16 flex flex-col items-center">
+        <p class="text-gray-400 text-sm font-medium tracking-wide mb-10 text-center">
+          Trusted by top brands around the world
+        </p>
+        
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60">
+          <div class="flex items-center gap-2">
+             <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+             <span class="text-white font-bold text-xl tracking-tight">zantic</span>
+          </div>
+          <div class="flex items-center gap-2">
+             <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
+             <span class="text-white font-bold text-xl tracking-tight">BookStore</span>
+          </div>
+          <div class="flex items-center gap-2">
+             <i data-lucide="box" class="w-6 h-6 text-white"></i>
+             <span class="text-white font-bold text-xl tracking-tight">Wager</span>
+          </div>
+          <div class="flex items-center gap-2">
+             <i data-lucide="disc" class="w-6 h-6 text-white"></i>
+             <span class="text-white font-bold text-xl tracking-tight">Unicoin</span>
+          </div>
+          <div class="flex items-center gap-2">
+             <i data-lucide="star" class="w-6 h-6 text-white"></i>
+             <span class="text-white font-bold text-xl tracking-tight">Crona</span>
+          </div>
+          <div class="flex items-center gap-2">
+             <i data-lucide="sun" class="w-6 h-6 text-white"></i>
+             <span class="text-white font-bold text-xl tracking-tight">Nutrican</span>
+          </div>
+          <div class="flex items-center gap-2">
+             <i data-lucide="rocket" class="w-6 h-6 text-white"></i>
+             <span class="text-white font-bold text-xl tracking-tight">Mercury</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="w-full pt-20 pb-32 flex flex-col items-center">
+        <div class="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm shadow-sm">
+          <i data-lucide="sparkles" class="w-4 h-4 text-gray-300"></i>
+          <span class="text-sm text-gray-300 font-medium">Key feature</span>
+        </div>
+
+        <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight text-center max-w-2xl mb-16">
+          Do less planning.<br />Get more done.
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
+          <!-- Feature 1 -->
+          <div class="bg-[#0a0e17]/80 backdrop-blur-md border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center overflow-hidden relative group">
+             <h3 class="text-xl font-semibold text-white mb-3">Prompt to Task</h3>
+             <p class="text-gray-400 text-sm mb-10 max-w-sm">Type your thoughts. We'll turn them into tasks - instantly and intuitively.</p>
+             
+             <div class="w-full h-48 bg-gradient-to-t from-blue-900/30 to-transparent rounded-2xl border border-white/10 mt-auto relative flex items-end justify-center p-4">
+                <div class="flex items-end gap-2 h-32 opacity-80 group-hover:opacity-100 transition-opacity">
+                    <div class="w-6 h-16 bg-blue-600 rounded-t-sm"></div>
+                    <div class="w-6 h-24 bg-blue-500 rounded-t-sm"></div>
+                    <div class="w-6 h-12 bg-blue-400 rounded-t-sm"></div>
+                    <div class="w-6 h-28 bg-indigo-500 rounded-t-sm"></div>
+                </div>
+                <div class="absolute top-4 left-4 right-4 h-12 bg-white/5 rounded-lg border border-white/10 backdrop-blur-sm flex items-center px-4">
+                    <div class="w-full h-2 bg-white/20 rounded-full"></div>
+                </div>
+             </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="bg-[#0a0e17]/80 backdrop-blur-md border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center overflow-hidden relative group">
+             <h3 class="text-xl font-semibold text-white mb-3">AI-Powered Content Generation</h3>
+             <p class="text-gray-400 text-sm mb-10 max-w-sm">Your tasks, sorted smartly by urgency, priority, or theme without lifting a finger.</p>
+             
+             <div class="w-full h-48 bg-gradient-to-t from-blue-900/30 to-transparent rounded-2xl border border-white/10 mt-auto relative overflow-hidden">
+                 <div class="absolute inset-x-8 bottom-[-20px] h-40 bg-[#111827] rounded-xl border border-white/10 p-4 transform rotate-[-2deg] opacity-90 group-hover:rotate-0 transition-transform duration-500">
+                     <div class="flex items-center gap-2 mb-4">
+                         <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                         <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                         <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                     </div>
+                     <div class="flex gap-2">
+                         <div class="w-16 h-6 rounded-full bg-blue-600/30 text-[10px] text-blue-400 flex items-center justify-center border border-blue-500/30">Start</div>
+                         <div class="w-16 h-6 rounded-full bg-white/5 text-[10px] text-gray-400 flex items-center justify-center border border-white/5">Doing</div>
+                     </div>
+                     <div class="mt-6 flex flex-col gap-3">
+                         <div class="h-2 w-3/4 bg-white/10 rounded-full"></div>
+                         <div class="h-2 w-1/2 bg-white/10 rounded-full"></div>
+                     </div>
+                 </div>
+             </div>
+          </div>
+          
+          <!-- Feature 3 -->
+          <div class="bg-[#0a0e17]/80 backdrop-blur-md border border-white/10 rounded-3xl p-8 flex flex-col items-start overflow-hidden relative group">
+             <h3 class="text-xl font-semibold text-white mb-3">Naveen Web Focus Mode</h3>
+             <p class="text-gray-400 text-sm mb-10 max-w-xs">Stay in flow. One task at a time. No noise, no overload.</p>
+             
+             <div class="w-full h-48 mt-auto relative overflow-hidden flex items-center justify-center">
+                 <div class="absolute w-[300px] h-[300px] rounded-full border border-blue-500/20 scale-50 group-hover:scale-75 transition-transform duration-700 ease-out"></div>
+                 <div class="absolute w-[200px] h-[200px] rounded-full border border-blue-500/30 scale-50 group-hover:scale-90 transition-transform duration-700 ease-out delay-75"></div>
+                 <div class="absolute w-[100px] h-[100px] rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 blur-[2px] shadow-[0_0_30px_rgba(37,99,235,0.5)]"></div>
+             </div>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="bg-[#0a0e17]/80 backdrop-blur-md border border-white/10 rounded-3xl p-8 flex flex-col items-start overflow-hidden relative group">
+             <h3 class="text-xl font-semibold text-white mb-3">AI-Powered Content Generation</h3>
+             <p class="text-gray-400 text-sm mb-10 max-w-xs">Overcome writer's block and get fresh ideas with a single click.</p>
+             
+             <div class="w-full h-48 mt-auto relative overflow-hidden flex items-end justify-end">
+                 <div class="absolute bottom-4 right-4 w-64 h-32 bg-[#111827] rounded-xl border border-white/10 p-4 shadow-xl translate-x-4 translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-500">
+                      <div class="flex items-center gap-3 mb-4">
+                          <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 text-xs font-bold">A</div>
+                          <div class="flex flex-col gap-1">
+                              <div class="w-20 h-2 bg-white/20 rounded-full"></div>
+                              <div class="w-12 h-2 bg-white/10 rounded-full"></div>
+                          </div>
+                      </div>
+                      <div class="h-10 w-full rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center px-3 gap-2">
+                          <i data-lucide="sparkles" class="w-3 h-3 text-blue-400"></i>
+                          <div class="h-1.5 w-32 bg-blue-400/50 rounded-full"></div>
+                      </div>
+                 </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Background Canvas Scroll Engine Script -->
+  <script>
+    (function () {
+      const TOTAL_FRAMES = 240;
+      const canvas = document.getElementById("animation-canvas");
+      const ctx = canvas.getContext("2d");
+      const loadingBar = document.getElementById("loading-bar");
+
+      const images = [];
+      let loadedCount = 0;
+      let targetFrame = 0;
+      let currentFrame = 0;
+      let lastDrawnFrame = -1;
+      let animFrameId = null;
+
+      function getFramePath(index) {
+        const padded = String(index).padStart(4, "0");
+        return `frames/frame_${padded}.jpg`;
+      }
+
+      function drawFrame(index) {
+        if (index < 0 || index >= TOTAL_FRAMES) return;
+        const img = images[index];
+        if (!img || !img.complete) return;
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        const targetCanvasWidth = Math.floor(viewportWidth * dpr);
+        const targetCanvasHeight = Math.floor(viewportHeight * dpr);
+
+        if (canvas.width !== targetCanvasWidth || canvas.height !== targetCanvasHeight) {
+          canvas.width = targetCanvasWidth;
+          canvas.height = targetCanvasHeight;
+        }
+
+        ctx.save();
+        ctx.scale(dpr, dpr);
+
+        const imgWidth = img.naturalWidth || img.width;
+        const imgHeight = img.naturalHeight || img.height;
+        const imgAspect = imgWidth / imgHeight;
+        const canvasAspect = viewportWidth / viewportHeight;
+
+        let drawWidth, drawHeight, offsetX, offsetY;
+
+        if (canvasAspect > imgAspect) {
+          drawWidth = viewportWidth;
+          drawHeight = viewportWidth / imgAspect;
+          offsetX = 0;
+          offsetY = (viewportHeight - drawHeight) / 2;
+        } else {
+          drawHeight = viewportHeight;
+          drawWidth = viewportHeight * imgAspect;
+          offsetX = (viewportWidth - drawWidth) / 2;
+          offsetY = 0;
+        }
+
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, viewportWidth, viewportHeight);
+        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+        ctx.restore();
+      }
+
+      for (let i = 0; i < TOTAL_FRAMES; i++) {
+        const img = new Image();
+        img.src = getFramePath(i);
+        img.onload = function () {
+          loadedCount++;
+          const progressPercent = (loadedCount / TOTAL_FRAMES) * 100;
+          loadingBar.style.width = progressPercent + "%";
+
+          if (i === 0 && lastDrawnFrame === -1) {
+            drawFrame(0);
+            lastDrawnFrame = 0;
+          }
+
+          if (loadedCount === TOTAL_FRAMES) {
+            setTimeout(function () {
+              loadingBar.classList.add("loaded");
+            }, 300);
+          }
+        };
+        images.push(img);
+      }
+
+      function updateTargetFrame() {
+        const scrollY = window.scrollY || window.pageYOffset;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        if (maxScroll <= 0) return;
+
+        const progress = Math.max(0, Math.min(1, scrollY / maxScroll));
+        targetFrame = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * TOTAL_FRAMES));
+      }
+
+      window.addEventListener("scroll", updateTargetFrame, { passive: true });
+      updateTargetFrame();
+
+      function renderLoop() {
+        currentFrame += (targetFrame - currentFrame) * 0.18;
+        const roundedFrame = Math.round(currentFrame);
+
+        if (roundedFrame !== lastDrawnFrame && roundedFrame >= 0 && roundedFrame < TOTAL_FRAMES) {
+          drawFrame(roundedFrame);
+          lastDrawnFrame = roundedFrame;
+        }
+
+        animFrameId = requestAnimationFrame(renderLoop);
+      }
+
+      animFrameId = requestAnimationFrame(renderLoop);
+
+      window.addEventListener("resize", function () {
+        if (lastDrawnFrame >= 0) {
+          drawFrame(lastDrawnFrame);
+        }
+      });
+
+      // Initialize Lucide Icons
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    })();
+  </script>
+</body>
+</html>
