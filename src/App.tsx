@@ -4,7 +4,9 @@ import Hero from "./components/Hero";
 import AppPreview from "./components/AppPreview";
 import LogoCloud from "./components/LogoCloud";
 import Features from "./components/Features";
+import AIAgent from "./components/AIAgent";
 import LoginModal from "./components/LoginModal";
+
 
 const TOTAL_FRAMES = 240;
 
@@ -186,10 +188,12 @@ export default function App() {
         <Navbar onOpenLogin={() => setIsLoginOpen(true)} />
         <main className="flex flex-col items-center w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <Hero />
+          <AIAgent />
           <AppPreview />
           <LogoCloud />
           <Features />
         </main>
+
       </div>
 
       {/* Login Modal */}
