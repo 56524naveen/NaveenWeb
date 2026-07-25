@@ -523,11 +523,13 @@
           <h2 id="literacy-chart-title" class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
             Global Literacy Rates
           </h2>
-          <p id="literacy-chart-desc" class="text-gray-400 text-sm mb-8">
-            Interactive bar graph visualizer showing literacy percentages across countries worldwide.
-          </p>
+          <div class="relative mb-6">
+            <i data-lucide="search" class="absolute left-3.5 top-3 w-4 h-4 text-gray-500"></i>
+            <input id="literacy-search-input" type="text" oninput="filterLiteracyBars()" placeholder="Filter by name or region..." class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all" />
+          </div>
 
           <div id="literacy-bars-container" class="space-y-4 mb-8"></div>
+
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10 text-xs text-gray-400">
             <div class="flex items-center gap-2">
@@ -848,75 +850,87 @@
         }, 700);
       };
 
-      // Top 10 Highest Literacy Countries Worldwide (%)
+      // Official Top 10 Highest Literacy Countries Worldwide (%)
       const countryLiteracyData = [
-        { name: "Andorra", rate: 100.0, flag: "🇦🇩" },
-        { name: "Finland", rate: 100.0, flag: "🇫🇮" },
-        { name: "Norway", rate: 100.0, flag: "🇳🇴" },
-        { name: "Luxembourg", rate: 100.0, flag: "🇱🇺" },
-        { name: "Liechtenstein", rate: 100.0, flag: "🇱🇮" },
-        { name: "Uzbekistan", rate: 99.9, flag: "🇺🇿" },
-        { name: "Ukraine", rate: 99.8, flag: "🇺🇦" },
-        { name: "Georgia", rate: 99.8, flag: "🇬🇪" },
-        { name: "Poland", rate: 99.8, flag: "🇵🇱" },
-        { name: "Russia", rate: 99.7, flag: "🇷🇺" }
-      ].sort((a, b) => b.rate - a.rate);
-
+        { name: "Andorra", rate: 100.0, flag: "🇦🇩", rank: 1, region: "Western Europe" },
+        { name: "Finland", rate: 100.0, flag: "🇫🇮", rank: 2, region: "Northern Europe" },
+        { name: "Norway", rate: 100.0, flag: "🇳🇴", rank: 3, region: "Northern Europe" },
+        { name: "Luxembourg", rate: 100.0, flag: "🇱🇺", rank: 4, region: "Western Europe" },
+        { name: "Liechtenstein", rate: 100.0, flag: "🇱🇮", rank: 5, region: "Central Europe" },
+        { name: "Uzbekistan", rate: 99.9, flag: "🇺🇿", rank: 6, region: "Central Asia" },
+        { name: "Ukraine", rate: 99.8, flag: "🇺🇦", rank: 7, region: "Eastern Europe" },
+        { name: "Georgia", rate: 99.8, flag: "🇬🇪", rank: 8, region: "Eastern Europe" },
+        { name: "Poland", rate: 99.8, flag: "🇵🇱", rank: 9, region: "Central Europe" },
+        { name: "Russia", rate: 99.7, flag: "🇷🇺", rank: 10, region: "Eurasia" }
+      ];
 
       const stateLiteracyData = [
-        { name: "Kerala", rate: 94.0 },
-        { name: "Mizoram", rate: 91.3 },
-        { name: "Goa", rate: 88.7 },
-        { name: "Himachal Pradesh", rate: 82.8 },
-        { name: "Maharashtra", rate: 82.3 },
-        { name: "Tamil Nadu", rate: 80.1 },
-        { name: "Gujarat", rate: 78.0 },
-        { name: "West Bengal", rate: 76.3 },
-        { name: "Uttar Pradesh", rate: 67.7 },
-        { name: "Bihar", rate: 61.8 }
-      ].sort((a, b) => b.rate - a.rate);
+        { name: "Kerala", rate: 94.0, rank: 1, region: "Southern Region" },
+        { name: "Mizoram", rate: 91.3, rank: 2, region: "North-Eastern Region" },
+        { name: "Goa", rate: 88.7, rank: 3, region: "Western Region" },
+        { name: "Tripura", rate: 87.8, rank: 4, region: "North-Eastern Region" },
+        { name: "Himachal Pradesh", rate: 82.8, rank: 5, region: "Northern Region" },
+        { name: "Maharashtra", rate: 82.3, rank: 6, region: "Western Region" },
+        { name: "Sikkim", rate: 81.4, rank: 7, region: "North-Eastern Region" },
+        { name: "Tamil Nadu", rate: 80.1, rank: 8, region: "Southern Region" },
+        { name: "Gujarat", rate: 78.0, rank: 9, region: "Western Region" },
+        { name: "West Bengal", rate: 76.3, rank: 10, region: "Eastern Region" }
+      ];
+
+      let currentLiteracyMode = 'country';
 
       window.toggleLiteracyTab = function(type) {
+        currentLiteracyMode = type;
         const countryBtn = document.getElementById('tab-country-btn');
         const stateBtn = document.getElementById('tab-state-btn');
         const titleEl = document.getElementById('literacy-chart-title');
-        const descEl = document.getElementById('literacy-chart-desc');
         const highestEl = document.getElementById('literacy-highest-val');
 
         if (type === 'country') {
           countryBtn.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-md cursor-pointer";
           stateBtn.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white cursor-pointer";
-          titleEl.textContent = "Global Literacy Rates";
-          descEl.textContent = "Interactive bar graph visualizer showing literacy percentages across countries worldwide.";
-          highestEl.textContent = "Russia (99.7%)";
-          renderLiteracyBars(countryLiteracyData);
+          titleEl.textContent = "Official Top 10 Countries for Literacy Rate";
+          highestEl.textContent = "Andorra / Finland / Norway (100.0%)";
+          filterLiteracyBars();
         } else {
           stateBtn.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-md cursor-pointer";
           countryBtn.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white cursor-pointer";
-          titleEl.textContent = "State-Wise Literacy Rates";
-          descEl.textContent = "Interactive bar graph visualizer showing literacy percentages across major states.";
+          titleEl.textContent = "Top 10 State-Wise Literacy Rates";
           highestEl.textContent = "Kerala (94.0%)";
-          renderLiteracyBars(stateLiteracyData);
+          filterLiteracyBars();
         }
+      };
+
+      window.filterLiteracyBars = function() {
+        const query = (document.getElementById('literacy-search-input')?.value || '').toLowerCase();
+        const dataset = currentLiteracyMode === 'country' ? countryLiteracyData : stateLiteracyData;
+        const filtered = dataset.filter(item => item.name.toLowerCase().includes(query) || (item.region && item.region.toLowerCase().includes(query)));
+        renderLiteracyBars(filtered);
       };
 
       function renderLiteracyBars(data) {
         const container = document.getElementById('literacy-bars-container');
         if (!container) return;
 
-        container.innerHTML = data.map((item, idx) => `
-          <div class="group relative">
-            <div class="flex items-center justify-between text-xs mb-1.5">
+        if (data.length === 0) {
+          container.innerHTML = `<div class="text-center py-6 text-gray-400 text-xs">No matching entries found.</div>`;
+          return;
+        }
+
+        container.innerHTML = data.map((item) => `
+          <div class="group relative bg-white/[0.02] hover:bg-white/[0.05] p-3 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all">
+            <div class="flex items-center justify-between text-xs mb-2">
               <div class="flex items-center gap-2">
-                <span class="font-mono text-gray-500 text-[11px] w-5">#${idx + 1}</span>
-                ${item.flag ? `<span class="text-sm">${item.flag}</span>` : ''}
-                <span class="font-semibold text-white group-hover:text-cyan-400 transition-colors">${item.name}</span>
-                ${idx < 3 ? '<span class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold">Top Performer</span>' : ''}
+                <span class="font-mono text-cyan-400 font-bold text-xs bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">#${item.rank}</span>
+                ${item.flag ? `<span class="text-base">${item.flag}</span>` : ''}
+                <span class="font-semibold text-white group-hover:text-cyan-300 text-sm transition-colors">${item.name}</span>
+                ${item.region ? `<span class="text-[10px] text-gray-500 bg-white/5 px-2 py-0.5 rounded-full hidden sm:inline">${item.region}</span>` : ''}
+                ${item.rank <= 3 ? '<span class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold">Top Leader</span>' : ''}
               </div>
-              <span class="font-mono font-bold text-cyan-400 text-sm">${item.rate.toFixed(1)}%</span>
+              <span class="font-mono font-extrabold text-cyan-400 text-base">${item.rate.toFixed(1)}%</span>
             </div>
-            <div class="h-3.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/10 p-0.5">
-              <div class="h-full rounded-full transition-all duration-1000 ease-out shadow-[0_0_12px_rgba(6,182,212,0.6)] ${idx === 0 ? 'bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500' : idx < 3 ? 'bg-gradient-to-r from-blue-500 to-indigo-500' : 'bg-gradient-to-r from-blue-600/80 to-indigo-600/80'}" style="width: ${item.rate}%;"></div>
+            <div class="h-4 w-full bg-white/5 rounded-full overflow-hidden border border-white/10 p-0.5">
+              <div class="h-full rounded-full transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(6,182,212,0.8)] ${item.rank === 1 ? 'bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500' : item.rank <= 3 ? 'bg-gradient-to-r from-cyan-500 to-blue-600' : 'bg-gradient-to-r from-blue-600 to-indigo-600'}" style="width: ${item.rate}%;"></div>
             </div>
           </div>
         `).join('');
@@ -924,6 +938,7 @@
 
       // Initial bar graph render
       renderLiteracyBars(countryLiteracyData);
+
 
 
   </script>
