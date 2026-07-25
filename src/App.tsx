@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import AppPreview from "./components/AppPreview";
 import LogoCloud from "./components/LogoCloud";
 import Features from "./components/Features";
+import LoginModal from "./components/LoginModal";
 
 const TOTAL_FRAMES = 240;
 
@@ -17,6 +18,8 @@ export default function App() {
 
   const [loadingProgress, setLoadingProgress] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
+
 
   // Preload all frames
   useEffect(() => {
@@ -180,7 +183,7 @@ export default function App() {
 
       {/* Foreground Landing Page UI Layer */}
       <div className="relative z-10 flex flex-col items-center w-full">
-        <Navbar />
+        <Navbar onOpenLogin={() => setIsLoginOpen(true)} />
         <main className="flex flex-col items-center w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <Hero />
           <AppPreview />
@@ -188,6 +191,10 @@ export default function App() {
           <Features />
         </main>
       </div>
+
+      {/* Login Modal */}
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </div>
   );
 }
+

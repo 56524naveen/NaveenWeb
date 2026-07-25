@@ -1,6 +1,10 @@
 import { Hexagon } from 'lucide-react';
 
-export default function Navbar() {
+interface NavbarProps {
+  onOpenLogin?: () => void;
+}
+
+export default function Navbar({ onOpenLogin }: NavbarProps) {
   return (
     <nav className="w-full pt-8 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -23,15 +27,15 @@ export default function Navbar() {
         </a>
       </div>
 
-      <a 
-        href="https://forms.gle/oHY5LR2vpT12HQb29" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 cursor-pointer inline-block"
-      >
-        Contact Me
-      </a>
-
+      <div className="flex items-center gap-3">
+        <button 
+          onClick={onOpenLogin}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 cursor-pointer active:scale-95"
+        >
+          Log in
+        </button>
+      </div>
     </nav>
   );
 }
+
