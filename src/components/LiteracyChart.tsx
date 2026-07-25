@@ -11,19 +11,20 @@ interface DataItem {
 export default function LiteracyChart() {
   const [activeTab, setActiveTab] = useState<'country' | 'state'>('country');
 
-  // Country-wise Literacy Data (%)
+  // Top 10 Highest Literacy Countries Worldwide (%)
   const countryData: DataItem[] = [
-    { name: "Russia", rate: 99.7, flag: "🇷🇺", rank: 1 },
-    { name: "Japan", rate: 99.0, flag: "🇯🇵", rank: 2 },
-    { name: "United States", rate: 99.0, flag: "🇺🇸", rank: 3 },
-    { name: "China", rate: 96.8, flag: "🇨🇳", rank: 4 },
-    { name: "South Africa", rate: 95.0, flag: "🇿🇦", rank: 5 },
-    { name: "Brazil", rate: 93.2, flag: "🇧🇷", rank: 6 },
-    { name: "World Average", rate: 86.7, flag: "🌐", rank: 7 },
-    { name: "Indonesia", rate: 96.0, flag: "🇮🇩", rank: 8 },
-    { name: "India", rate: 77.7, flag: "🇮🇳", rank: 9 },
-    { name: "Egypt", rate: 71.2, flag: "🇪🇬", rank: 10 },
+    { name: "Andorra", rate: 100.0, flag: "🇦🇩", rank: 1 },
+    { name: "Finland", rate: 100.0, flag: "🇫🇮", rank: 2 },
+    { name: "Norway", rate: 100.0, flag: "🇳🇴", rank: 3 },
+    { name: "Luxembourg", rate: 100.0, flag: "🇱🇺", rank: 4 },
+    { name: "Liechtenstein", rate: 100.0, flag: "🇱🇮", rank: 5 },
+    { name: "Uzbekistan", rate: 99.9, flag: "🇺🇿", rank: 6 },
+    { name: "Ukraine", rate: 99.8, flag: "🇺🇦", rank: 7 },
+    { name: "Georgia", rate: 99.8, flag: "🇬🇪", rank: 8 },
+    { name: "Poland", rate: 99.8, flag: "🇵🇱", rank: 9 },
+    { name: "Russia", rate: 99.7, flag: "🇷🇺", rank: 10 },
   ].sort((a, b) => b.rate - a.rate);
+
 
   // State-wise Literacy Data (India %)
   const stateData: DataItem[] = [
