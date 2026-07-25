@@ -6,7 +6,9 @@ import LogoCloud from "./components/LogoCloud";
 import Features from "./components/Features";
 import AIAgent from "./components/AIAgent";
 import FuturePredictor from "./components/FuturePredictor";
+import LiteracyChart from "./components/LiteracyChart";
 import LoginModal from "./components/LoginModal";
+
 
 
 
@@ -195,7 +197,9 @@ export default function App() {
           <AppPreview />
           <LogoCloud />
           <Features />
+          <LiteracyChart />
         </main>
+
 
 
       </div>
